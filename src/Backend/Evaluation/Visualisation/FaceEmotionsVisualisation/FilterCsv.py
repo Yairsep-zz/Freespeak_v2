@@ -18,9 +18,9 @@ def filter_data(data, time):
             result.append(string)
     return result
 
-def filterCsv(input_path, output_path):
+def filterCsv(raw_data_path, output_path):
     filtered = []
-    with open(input_path + '\\emotions.csv', 'r') as f:
+    with open(raw_data_path + '\\emotions.csv', 'r') as f:
         temp = [line.strip() for line in f]
         data = []
         time = []

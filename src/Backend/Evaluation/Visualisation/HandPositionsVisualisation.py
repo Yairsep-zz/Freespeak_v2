@@ -7,11 +7,12 @@ import os, statistics, math, sys, csv
 
 #TODO: create the feedback from here or somewhere else?
 #importing files for feedback creation
-from Freespeak_v2.Backend.Evaluation.Feedback import handPositionsFeedback
+from Freespeak_v2.Backend.Evaluation.Feedback.HandPositionsFeedback import standardDeviation
+from Freespeak_v2.Backend.Evaluation.Feedback.HandPositionsFeedback import gestureAdvicer
 
 
-def handPositionsVisualisation(input_path, output_path):
-    data = csv.DictReader(open(input_path+'\\handPositions.csv'), delimiter=',')
+def handPositionsVisualisation(raw_data_path, output_path):
+    data = csv.DictReader(open(raw_data_path + '\\handPositions.csv'), delimiter=',')
     xCoords = []
     yCoords = []
     for d in data:

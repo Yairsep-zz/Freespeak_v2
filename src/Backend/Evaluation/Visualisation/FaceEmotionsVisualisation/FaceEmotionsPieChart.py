@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import collections
 
-def faceEmotionsPieChart(input_path, output_path):
-    df = pd.read_csv(input_path + "\\emotions.csv")
+def faceEmotionsPieChart(raw_data_path, output_path):
+    df = pd.read_csv(raw_data_path + "\\emotions.csv")
     emotions = df['Emotions']
 
     labels = np.unique(emotions)

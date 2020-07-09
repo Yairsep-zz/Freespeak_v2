@@ -6,8 +6,8 @@ import csv
 import sys
 import os
 
-def faceEmotionsTimeLine(input_path, output_path):
-    data = csv.DictReader(open(input_path+'\\emotions.csv'), delimiter=',')
+def faceEmotionsTimeLine(raw_data_path, output_path):
+    data = csv.DictReader(open(raw_data_path+'\\emotions.csv'), delimiter=',')
     realtime = []
     emotions = []
 

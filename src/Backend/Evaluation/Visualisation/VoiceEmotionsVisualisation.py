@@ -2,9 +2,9 @@ import numpy as np
 import logging
 import matplotlib.pyplot as plt
 
-def voiceEmotionsVisualisation(input_data, output_path):
+def voiceEmotionsVisualisation(raw_data, output_path):
     logging.info('start plotting speechEmotions')
-    labels = np.unique(input_data)
+    labels = np.unique(raw_data)
     emotionToColorMap = {
     "happy": '#ff9999',
     "neutral": '#66b3ff',
@@ -16,8 +16,8 @@ def voiceEmotionsVisualisation(input_data, output_path):
     colors = []
     for i in range(len(labels)):
         color_counter = 0
-        for j in range(len(input_data)):
-            if labels[i] ==  input_data[j]:
+        for j in range(len(raw_data)):
+            if labels[i] ==  raw_data[j]:
                 color_counter += 1
         sizes.append(color_counter)
         colors.append(emotionToColorMap.get(labels[i]))

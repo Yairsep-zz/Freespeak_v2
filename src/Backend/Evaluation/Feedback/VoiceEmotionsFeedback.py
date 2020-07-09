@@ -1,5 +1,5 @@
 def voiceEmotionsFeedback(color_number, color_names, output_path):
-    indexMaxVal = findallIndx(color_number)
+    indexMaxVal = findAllIndices(color_number)
     occuringEmotions = "We detected these emotions in your voice:\n"
     emotions = ""
     for i in range(len(color_names)):
@@ -65,7 +65,7 @@ def saveToText(comment, output_path):
     text_file.write(comment)
     text_file.close()
 
-def findallIndx(color_number):
+def findAllIndices(color_number):
     maxVal = -1
     positionsMaxVal = []
     for i in range(len(color_number)):
