@@ -1,7 +1,7 @@
 import cv2
 from PyQt5.QtCore import QThread
 import logging
-from Backend.Recording.VideoRecorder.videoWriter import VideoWriter
+from videoWriter import VideoWriter
 
 # Code to thread reading camera input.
 # Source : Adrian Rosebrock
@@ -46,7 +46,7 @@ class VideoReader(QThread):
         while self.running and self.stream.isOpened():
             (self.grabbed, frame) = self.stream.read()
             if self.grabbed and self.recording:
-                self.videoOut.write(frame)
+                self.videoWriter.writeFrame(frame)
             self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     def read(self):
@@ -74,3 +74,11 @@ class VideoReader(QThread):
     def stopRecording(self):
         self.recording = False
         self.videoWriter.stopRecording()
+
+if __name__ == "__main__":
+    # Test the Video Reader
+    with VideoReader(src=cv2.CAP_ANY, width=300, height=200) as videoReader:
+        while True:
+            cv2.imshow('frame',videoReader.read())
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
