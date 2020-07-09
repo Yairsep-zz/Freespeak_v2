@@ -1,20 +1,18 @@
-import soundfile, librosa, joblib, os
+import soundfile, librosa, joblib, os, argparse, logging
 import numpy as np
 import matplotlib.pyplot as plt
-import logging
 
 from pydub.utils import make_chunks
 from pydub import AudioSegment
 
-# ressources_path: where the model is saved
-# raw_data_path: where wav chunks will be stored (in wav_chunks folder)
-def custom_file(audio_name, ressources_path, raw_data_path):
+def voice_emotions_analysis(audio_path, model_path, raw_data_path):
+    print(AudioSegment.ffmpeg)
+
     logging.info('starting speechEmotionsAnalysis')
-    #load emotions recognition model
-    model = joblib.load(ressources_path)
+    model = joblib.load(model_path)
     logging.info('emotions_model loaded')
 
-    myaudio = AudioSegment.from_file(audio_name, "wav")
+    myaudio = AudioSegment.from_wav(audio_path, "wav")
     logging.info('wav audio loaded')
 
     chunk_length_ms = 3000
@@ -59,3 +57,13 @@ def extractFeature(file_name, mfcc, chroma, mel):
             mel=np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T,axis=0)
             result=np.hstack((result, mel))
     return result
+
+
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser(description='Create a ArcHydro schema')
+#     parser.add_argument('audio_path')
+#     parser.add_argument('model_path')
+#     parser.add_argument('raw_data_path')
+#     args = parser.parse_args()
+
+#     voice_emotions_analysis(args.audio_path, args.model_path, args.raw_data_path)
