@@ -63,7 +63,8 @@ class VideoReader(QThread):
     def stop(self):
        # indicate that the thread should be stopped
        self.running = False
-       self.stopRecording()
+       if self.recording:
+        self.stopRecording() 
        self.stream.release()
        logging.info('videoReader stopped')
 

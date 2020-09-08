@@ -1,5 +1,7 @@
 import cv2
 import logging
+import pathlib
+import os.path
 
 class VideoWriter():
     def __init__(self, width, height):
@@ -8,6 +10,7 @@ class VideoWriter():
       self.width = width
       self.height = height
       self.open = False
+      self.outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/'
 
     def writeFrame(self, frame):
       if self.open:
@@ -15,8 +18,7 @@ class VideoWriter():
 
     def startRecording(self, fps):
         logging.info('videoWriter starting recording')
-        #TODO: change destination path to resources/raw_data
-        self.videoOut = cv2.VideoWriter('output.avi', self.fourcc, fps, (int(self.width),int(self.height)))
+        self.videoOut = cv2.VideoWriter(self.outputPath + 'output.avi', self.fourcc, fps, (int(self.width),int(self.height)))
         self.open = True
 
     def stopRecording(self):
