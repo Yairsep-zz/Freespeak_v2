@@ -1,7 +1,7 @@
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from guiTesting.recordWindow import RecordWindow
-from guiTesting.resultScreen import ResultScreen
+from Frontend.guiRecordingPage import RecordWindow
+from Frontend.guiResultPage import ResultScreen
 
 # get the directory of this script
 path = os.path.dirname(os.path.abspath(__file__))
