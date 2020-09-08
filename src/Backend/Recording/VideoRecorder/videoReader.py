@@ -14,6 +14,7 @@ class VideoReader(QThread):
         self.src = src
         self.width = width
         self.height = height
+        
 
         # initialize the variable used to indicate if the thread should
         # be stopped

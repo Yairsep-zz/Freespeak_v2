@@ -1,6 +1,5 @@
 import cv2
 import logging
-import pathlib
 import os.path
 
 class VideoWriter():

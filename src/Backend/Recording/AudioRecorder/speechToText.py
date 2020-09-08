@@ -1,6 +1,7 @@
-from audio.MicrophoneStream import MicrophoneStream
+from audioReader import AudioReader
 import re
 import sys
+import os
 
 from google.cloud import speech
 from google.cloud.speech import enums
@@ -13,9 +14,10 @@ class AudioAdapter(QThread):
   RATE = 16000
   CHUNK = int(RATE / 10)  # 100ms
 
-  def __init__(self, gui):
+  def __init__(self,gui):
     super().__init__()
     self.gui = gui
+    self.outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/'
 
   def run(self):
       """Iterates through server responses and prints them.
@@ -45,14 +47,15 @@ class AudioAdapter(QThread):
           config=config,
           interim_results=True)
 
-      with MicrophoneStream(self.RATE, self.CHUNK) as self.stream:
+      with AudioReader(self.RATE, self.CHUNK) as self.stream:
+          print('hi')
           audio_generator = self.stream.generator()
           requests = (types.StreamingRecognizeRequest(audio_content=content)
                       for content in audio_generator)
           responses = client.streaming_recognize(streaming_config, requests)
 
           # Now, put the transcription responses to use.
-          with open("outputFiles\\output.txt", 'w') as txt:
+          with open(self.outputPath + 'output.txt', 'w') as txt:
               for response in responses:
                   if not response.results:
                       continue
@@ -75,6 +78,7 @@ class AudioAdapter(QThread):
 
                   if result.is_final:
                       self.gui.putText(transcript)
+                      print(transcript)
                       txt.write(transcript + '.\n')
                       txt.flush()
 

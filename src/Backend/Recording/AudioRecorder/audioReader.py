@@ -1,5 +1,6 @@
 import pyaudio
 from six.moves import queue
+import os
 
 import wave
 
@@ -9,8 +10,8 @@ class AudioReader(object):
         self._rate = rate
         self._chunk = chunk
 
-        filename = "outputFiles\\output.wav"
-        self.wf = wave.open(filename, 'wb')
+        outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/' + 'output.wav'
+        self.wf = wave.open(outputPath, 'wb')
         self.wf.setnchannels(1)
         self.wf.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
         self.wf.setframerate(rate)
