@@ -2,6 +2,7 @@ import os
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from Frontend.guiRecordingPage import RecordWindow
 from Frontend.guiResultPage import ResultScreen
+import logging
 
 # get the directory of this script
 path = os.path.dirname(os.path.abspath(__file__))
@@ -14,8 +15,9 @@ class GuiManager(WindowBase, WindowUI):
     def __init__(self, parent=None):
         WindowBase.__init__(self, parent)
         self.setupUi(self)
-        logging.info("Starting guiRecordingPage......")
+        logging.info("Initializing guiRecordingPage......")
         self.recordWindow = RecordWindow(self)
+        logging.info("Initializing ResultScreen......")
         self.resultScreen = ResultScreen(self)
 
         self.stackedWidget.addWidget(self.recordWindow)
