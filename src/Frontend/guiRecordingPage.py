@@ -37,6 +37,7 @@ class RecordWindow(WindowBase, WindowUI):
         logging.info("Connecting events.......")
         self.startStopButton.clicked.connect(self.onStartStopButtonPress)
         self.manager.connectEvents(timerEvent=self.timerEvent, videoFrameEvent=self.setFrame)
+        self.manager.startVideo()
 
     def onStartStopButtonPress(self):
         if self.recording:

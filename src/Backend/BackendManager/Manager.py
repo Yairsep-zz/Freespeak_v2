@@ -24,12 +24,12 @@ class Manager():
     self.videoInitialized = True
     logging.info("Manager initialized......")
 
-
   def connectEvents(self, timerEvent, videoFrameEvent):
     self.timer.timeout.connect(timerEvent)
     self.video.connectEvents(videoFrameEvent)
     logging.info("VideoManager connected videoFrameEvent......")
-    #TODO: video.start() nich hier aufrufen
+
+  def startVideo(self):
     logging.info("Starting VideoManager (first thread)......")
     self.video.start()
 

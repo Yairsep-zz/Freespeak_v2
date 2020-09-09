@@ -29,7 +29,6 @@ class VideoReader(QThread):
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
         (self.grabbed, frame) = self.stream.read()
-        # self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.width, self.height = self.size()
 
         # start writing device
@@ -51,14 +50,12 @@ class VideoReader(QThread):
             (self.grabbed, frame) = self.stream.read()
             if self.grabbed and self.recording:
                 self.videoWriter.writeFrame(frame)
-            # self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             if not self.queue.full():
                 self.queue.put(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
     def read(self):
         # return the frame most recently read
         return self.queue.get()
-        # return self.frame
 
     def size(self):
         # return size of the capture device
@@ -71,7 +68,7 @@ class VideoReader(QThread):
        # indicate that the thread should be stopped
        self.running = False
        if self.recording:
-        self.stopRecording() 
+        self.stopRecording()
        self.stream.release()
        logging.info('videoReader stopped')
 
