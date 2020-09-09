@@ -1,6 +1,7 @@
 import logging
 import datetime
 import cv2
+import time
 
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
@@ -71,7 +72,8 @@ class VideoManager(QThread):
         if (frame is not None):
             # if (self.showFps):
             #     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)),
-            #                                     frame)
+            #
+            time.sleep(0.05)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(
