@@ -1,8 +1,6 @@
 import pyaudio
 from six.moves import queue
-import os
-
-import wave
+from audioWriter import AudioWriter
 
 class AudioReader(object):
     """Opens a recording stream as a generator yielding the audio chunks."""
@@ -10,11 +8,7 @@ class AudioReader(object):
         self._rate = rate
         self._chunk = chunk
 
-        outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/' + 'output.wav'
-        self.wf = wave.open(outputPath, 'wb')
-        self.wf.setnchannels(1)
-        self.wf.setsampwidth(pyaudio.get_sample_size(pyaudio.paInt16))
-        self.wf.setframerate(rate)
+        self.audioWriter = AudioWriter(rate)
 
         # Create a thread-safe buffer of audio data
         self._buff = queue.Queue()
@@ -48,12 +42,12 @@ class AudioReader(object):
         # streaming_recognize method will not block the process termination.
         self._buff.put(None)
         self._audio_interface.terminate()
-        self.wf.close()
+        self.audioWriter.close()
 
     def _fill_buffer(self, in_data, frame_count, time_info, status_flags):
         """Continuously collect data from the audio stream, into the buffer."""
         self._buff.put(in_data)
-        self.wf.writeframes(in_data)
+        self.audioWriter.writeFrame(in_data)
         return None, pyaudio.paContinue
 
     def generator(self):

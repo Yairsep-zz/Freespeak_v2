@@ -18,6 +18,17 @@ class AudioAdapter(QThread):
     super().__init__()
     self.gui = gui
     self.outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/'
+    # See http://g.co/cloud/speech/docs/languages
+    # for a list of supported languages.
+    language_code = 'en-US'  # a BCP-47 language tag
+    self.client = speech.SpeechClient()
+    config = types.RecognitionConfig(
+          encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
+          sample_rate_hertz=self.RATE,
+          language_code=language_code)
+    self.streaming_config = types.StreamingRecognitionConfig(
+          config=config,
+          interim_results=True)
 
   def run(self):
       """Iterates through server responses and prints them.
@@ -34,25 +45,14 @@ class AudioAdapter(QThread):
       the next result to overwrite it, until the response is a final one. For the
       final one, print a newline to preserve the finalized transcription.
       """
-      # See http://g.co/cloud/speech/docs/languages
-      # for a list of supported languages.
-      language_code = 'en-US'  # a BCP-47 language tag
-    #TODO: Move to init?
-      client = speech.SpeechClient()
-      config = types.RecognitionConfig(
-          encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-          sample_rate_hertz=self.RATE,
-          language_code=language_code)
-      streaming_config = types.StreamingRecognitionConfig(
-          config=config,
-          interim_results=True)
+      
+      
 
       with AudioReader(self.RATE, self.CHUNK) as self.stream:
-          print('hi')
           audio_generator = self.stream.generator()
           requests = (types.StreamingRecognizeRequest(audio_content=content)
                       for content in audio_generator)
-          responses = client.streaming_recognize(streaming_config, requests)
+          responses = self.client.streaming_recognize(self.streaming_config, requests)
 
           # Now, put the transcription responses to use.
           with open(self.outputPath + 'output.txt', 'w') as txt:
