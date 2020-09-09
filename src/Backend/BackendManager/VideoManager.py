@@ -31,8 +31,7 @@ class VideoManager(QThread):
 
 
   def connectEvents(self, videoFrameEvent):
-    pass
-    #self.changePixmap.connect(videoFrameEvent)
+    self.changePixmap.connect(videoFrameEvent)
 
   def startRecording(self):
     logging.info('VideoManager starting recording')

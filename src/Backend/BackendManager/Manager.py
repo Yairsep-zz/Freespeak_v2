@@ -25,10 +25,9 @@ class Manager():
 
   def connectEvents(self, timerEvent, videoFrameEvent):
     self.timer.timeout.connect(timerEvent)
-    self.video.changePixmap.connect(videoFrameEvent)
+    self.video.connectEvents(videoFrameEvent)
     print("VideoManager connected videoFrameEvent......")
     self.video.start()
-    # self.video.connectEvents(videoFrameEvent)
 
   def startRecording(self):
       logging.info('start recording pressed')
