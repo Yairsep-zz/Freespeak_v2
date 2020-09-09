@@ -1,6 +1,7 @@
 import cv2
 from PyQt5.QtCore import QThread
 import logging
+from queue import Queue
 from Backend.Recording.VideoRecorder.videoWriter import VideoWriter
 
 # Code to thread reading camera input.
@@ -14,23 +15,25 @@ class VideoReader(QThread):
         self.src = src
         self.width = width
         self.height = height
-        
+        self.BUF_SIZE = 1
+        self.queue = Queue(self.BUF_SIZE)
 
         # initialize the variable used to indicate if the thread should
         # be stopped
         self.running = False
 
-        logging.info('opening video capture device')
+        logging.info('opening video capture device.....')
         # start recording device
         self.stream = cv2.VideoCapture(self.src)
         self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
 
         (self.grabbed, frame) = self.stream.read()
-        self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         self.width, self.height = self.size()
 
         # start writing device
+        logging.info('Initializing VideoWriter.....')
         self.videoWriter = VideoWriter(self.width, self.height)
         self.recording = False
 
@@ -48,11 +51,14 @@ class VideoReader(QThread):
             (self.grabbed, frame) = self.stream.read()
             if self.grabbed and self.recording:
                 self.videoWriter.writeFrame(frame)
-            self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            if not self.queue.full():
+                self.queue.put(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
     def read(self):
         # return the frame most recently read
-        return self.frame
+        return self.queue.get()
+        # return self.frame
 
     def size(self):
         # return size of the capture device

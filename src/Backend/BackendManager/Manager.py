@@ -17,16 +17,20 @@ class Manager():
 
     #self.video = VideoAdapter()
     #self.audio = AudioAdapter(self)
-    print("Starting VideoManager......")
+    logging.info("Initializing VideoManager(QThread)......")
     self.video = VideoManager()
 
     self.audioInitialized = False
     self.videoInitialized = True
+    logging.info("Manager initialized......")
+
 
   def connectEvents(self, timerEvent, videoFrameEvent):
     self.timer.timeout.connect(timerEvent)
     self.video.connectEvents(videoFrameEvent)
-    print("VideoManager connected videoFrameEvent......")
+    logging.info("VideoManager connected videoFrameEvent......")
+    #TODO: video.start() nich hier aufrufen
+    logging.info("Starting VideoManager (first thread)......")
     self.video.start()
 
   def startRecording(self):

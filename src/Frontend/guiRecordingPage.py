@@ -31,14 +31,12 @@ class RecordWindow(WindowBase, WindowUI):
         self.setupUi(self)
 
         self.recording = False
-        print("Starting Manager......")
+        logging.info("Initializing Manager......")
         self.manager = Manager()
-        print("Manager initialized/started.......")
 
-        print("Connecting events.......")
+        logging.info("Connecting events.......")
         self.startStopButton.clicked.connect(self.onStartStopButtonPress)
         self.manager.connectEvents(timerEvent=self.timerEvent, videoFrameEvent=self.setFrame)
-        #self.video.changePixmap.connect(self.setFrame)
 
     def onStartStopButtonPress(self):
         if self.recording:

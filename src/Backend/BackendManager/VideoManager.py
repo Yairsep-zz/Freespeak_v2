@@ -23,7 +23,7 @@ class VideoManager(QThread):
 
     #self.changePixmap = pyqtSignal(QImage)
 
-    logging.info('opening VideoReader')
+    logging.info('Initializing VideoReader.....')
     self.video_capture = VideoReader(
             src=self.video_source, width=self.width, height=self.height)
     self.width, self.height = self.video_capture.size()
@@ -48,7 +48,7 @@ class VideoManager(QThread):
     logging.info('VideoManager recording stopped')
 
   def run(self):
-    logging.info('starting to run videoManager')
+    logging.info('Starting VideoReader (second thread)')
     self.video_capture.start()
 
     # start_time = datetime.datetime.now()
@@ -72,7 +72,7 @@ class VideoManager(QThread):
             # if (self.showFps):
             #     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)),
             #
-            time.sleep(0.05)
+            # time.sleep(0.05)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(
