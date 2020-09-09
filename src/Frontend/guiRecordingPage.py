@@ -49,8 +49,6 @@ class RecordWindow(WindowBase, WindowUI):
         self.recording = not self.recording
 
     def setFrame(self, frame):
-        # print("hahaha")
-
         w = self.videoScreen.width() - 1
         h = self.videoScreen.height() - 1
         pixmap = QtGui.QPixmap.fromImage(frame)
