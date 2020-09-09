@@ -14,7 +14,7 @@ class GuiManager(WindowBase, WindowUI):
     def __init__(self, parent=None):
         WindowBase.__init__(self, parent)
         self.setupUi(self)
-        print("Starting guiRecordingPage......")
+        logging.info("Starting guiRecordingPage......")
         self.recordWindow = RecordWindow(self)
         self.resultScreen = ResultScreen(self)
 
