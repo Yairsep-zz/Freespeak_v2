@@ -7,22 +7,32 @@ import shutil
 
 from PyQt5 import QtCore
 
+from Backend.BackendManager.VideoManager import VideoManager
+
 class Manager():
-  def __init__(self, timerEvent):
+  def __init__(self):
     self.timer = QtCore.QTimer()
     self.time = QtCore.QTime(0, 0)
     self.numberOfWords = 0
+
+    #self.video = VideoAdapter()
     #self.audio = AudioAdapter(self)
+    print("Starting VideoManager......")
+    self.video = VideoManager()
+
     self.audioInitialized = False
     self.videoInitialized = True
 
+  def connectEvents(self, timerEvent, videoFrameEvent):
     self.timer.timeout.connect(timerEvent)
-    #self.video.start()
-
+    self.video.changePixmap.connect(videoFrameEvent)
+    print("VideoManager connected videoFrameEvent......")
+    self.video.start()
+    # self.video.connectEvents(videoFrameEvent)
 
   def startRecording(self):
       logging.info('start recording pressed')
-      #self.video.startRecording()
+      self.video.startRecording()
       self.videoInitialized = True
       #self.audio.start()
       self.videoInitialized = True
@@ -41,7 +51,7 @@ class Manager():
       #     logging.info('wpm file written')
 
       self.timer.stop()
-      #self.video.stopRecording()
+      self.video.stopRecording()
       #self.audio.stopRecording()
       #self.analyzeAudio(wordsPerMinute)
       #self.moveOutput()

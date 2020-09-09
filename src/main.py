@@ -13,7 +13,7 @@ if __name__ == "__main__":
     timer = QTimer()
     timer.timeout.connect(lambda: None)
     timer.start(100)
-
+    print("Starting GuiManager......")
     mainWindow = GuiManager()
 
     app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))

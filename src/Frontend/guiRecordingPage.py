@@ -31,9 +31,13 @@ class RecordWindow(WindowBase, WindowUI):
         self.setupUi(self)
 
         self.recording = False
-        self.manager = Manager(timerEvent=self.timerEvent)
+        print("Starting Manager......")
+        self.manager = Manager()
+        print("Manager initialized/started.......")
 
+        print("Connecting events.......")
         self.startStopButton.clicked.connect(self.onStartStopButtonPress)
+        self.manager.connectEvents(timerEvent=self.timerEvent, videoFrameEvent=self.setFrame)
         #self.video.changePixmap.connect(self.setFrame)
 
     def onStartStopButtonPress(self):
@@ -46,11 +50,13 @@ class RecordWindow(WindowBase, WindowUI):
         self.recording = not self.recording
 
     def setFrame(self, frame):
-        w = self.videoScreen.width() - 1
-        h = self.videoScreen.height() - 1
-        pixmap = QtGui.QPixmap.fromImage(frame)
-        self.videoScreen.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio,QtCore.Qt.FastTransformation))
-        self.videoScreen.setMinimumSize(1,1)
+        print("hahaha")
+
+        # w = self.videoScreen.width() - 1
+        # h = self.videoScreen.height() - 1
+        # pixmap = QtGui.QPixmap.fromImage(frame)
+        # self.videoScreen.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio,QtCore.Qt.FastTransformation))
+        # self.videoScreen.setMinimumSize(1,1)
 
     def putText(self,stuff):
         self.manager.putText(stuff)
