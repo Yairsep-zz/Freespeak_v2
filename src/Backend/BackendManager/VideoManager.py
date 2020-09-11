@@ -73,7 +73,7 @@ class VideoManager(QThread):
             #     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)),
             #
             #TODO: bug fix
-            # time.sleep(0.05)
+            time.sleep(0.05)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(
