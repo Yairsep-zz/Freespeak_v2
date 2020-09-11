@@ -38,13 +38,13 @@ class VideoManager(QThread):
     self.recording = True
     # self.handPositionsWriter.start()
     # self.emotionsWriter.start()
-    # self.video_capture.startRecording()
+    self.video_capture.startRecording()
 
   def stopRecording(self):
     self.recording = False
     # self.handPositionsWriter.stop()
     # self.emotionsWriter.stop()
-    # self.video_capture.stopRecording()
+    self.video_capture.stopRecording()
     logging.info('VideoManager recording stopped')
 
   def run(self):
