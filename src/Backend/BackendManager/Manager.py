@@ -8,6 +8,7 @@ import shutil
 from PyQt5 import QtCore
 
 from Backend.BackendManager.VideoManager import VideoManager
+from Backend.BackendManager.AudioManager import AudioManager
 
 class Manager():
   def __init__(self):
@@ -19,6 +20,7 @@ class Manager():
     #self.audio = AudioAdapter(self)
     logging.info("Initializing VideoManager(QThread)......")
     self.video = VideoManager()
+    self.audioManager = AudioManager()
 
     self.audioInitialized = False
     self.videoInitialized = True
@@ -37,7 +39,7 @@ class Manager():
       logging.info('start recording pressed')
       self.video.startRecording()
       self.videoInitialized = True
-      #self.audio.start()
+      self.audioManager.startRecording()
       self.videoInitialized = True
       self.timer.start(100)
       self.time.start()
@@ -55,13 +57,13 @@ class Manager():
 
       self.timer.stop()
       self.video.stopRecording()
-      #self.audio.stopRecording()
+      self.audioManager.stopRecording()
       #self.analyzeAudio(wordsPerMinute)
       #self.moveOutput()
 
-  def putText(self,stuff):
-      logging.info('detected: ' + stuff)
-      self.numberOfWords += len(stuff.split())
+  # def putText(self,stuff):
+  #     logging.info('detected: ' + stuff)
+  #     self.numberOfWords += len(stuff.split())
 
   def moveOutput(self):
       workingDir = os.getcwd()

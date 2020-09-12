@@ -57,8 +57,8 @@ class RecordWindow(WindowBase, WindowUI):
         self.videoScreen.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio,QtCore.Qt.FastTransformation))
         self.videoScreen.setMinimumSize(1,1)
 
-    def putText(self,stuff):
-        self.manager.putText(stuff)
+    # def putText(self,stuff):
+    #     self.manager.putText(stuff)
 
     def timerEvent(self):
         elapsedTime = self.manager.getElapsedTime()
