@@ -2,7 +2,7 @@ import cv2
 from PyQt5.QtCore import QThread
 import logging
 from queue import Queue
-from Backend.Recording.VideoRecorder.videoWriter import VideoWriter
+from Backend.Recording.VideoRecorder.VideoWriter import VideoWriter
 
 # Code to thread reading camera input.
 # Source : Adrian Rosebrock

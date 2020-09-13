@@ -1,8 +1,8 @@
 import logging
 
-from Backend.Recording.AudioRecorder.audioWriter import AudioWriter
-from Backend.Recording.AudioRecorder.audioReader import AudioReader
-from Backend.Recording.AudioRecorder.speechToText import SpeechToText
+from Backend.Recording.AudioRecorder.AudioWriter import AudioWriter
+from Backend.Recording.AudioRecorder.AudioReader import AudioReader
+from Backend.Recording.AudioRecorder.SpeechToText import SpeechToText
 
 
 class AudioManager():

@@ -6,7 +6,7 @@ import time
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 
-from Backend.Recording.VideoRecorder.videoReader import VideoReader
+from Backend.Recording.VideoRecorder.VideoReader import VideoReader
 from Backend.Analysis.VideoAnalysis.HandPositionsAnalysis import HandDetector
 from Backend.Analysis.VideoAnalysis.FaceEmotionsAnalysis import FaceEmotionDetector
 from Backend.Analysis.Utils.CsvWriter import CsvWriter
