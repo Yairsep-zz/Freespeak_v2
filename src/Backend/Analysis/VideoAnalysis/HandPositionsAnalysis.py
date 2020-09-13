@@ -52,7 +52,7 @@ class HandDetector(QThread):
                 x = int(left + ((right - left)/2))
                 y = int(bottom + ((top - bottom) / 2))
                 results.append([str(datetime.now().timestamp()), str(x), str(y)])
-        return results  
+        return results
 
   # def run(self):
   #     print(">> loading frozen model for worker")

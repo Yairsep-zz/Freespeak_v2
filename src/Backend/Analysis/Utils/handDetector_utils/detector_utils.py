@@ -17,14 +17,15 @@ sys.path.append("..")
 # score threshold for showing bounding boxes.
 _score_thresh = 0.27
 
-MODEL_NAME = os.path.join('resources', 'hand_positions_analysis_resources', 'hand_inference_graph')
+RESOURCES_PATH = os.path.abspath(__file__ + "/../../../../../../")
+MODEL_NAME = os.path.join(RESOURCES_PATH, 'resources', 'hand_positions_analysis_resources', 'hand_inference_graph')
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
-PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
+PATH_TO_CKPT = os.path.join(MODEL_NAME, 'frozen_inference_graph.pb')
 # List of the strings that is used to add correct label for each box.
 PATH_TO_LABELS = os.path.join(MODEL_NAME, 'hand_label_map.pbtxt')
 
 NUM_CLASSES = 1
-# load label map
+
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 categories = label_map_util.convert_label_map_to_categories(
     label_map, max_num_classes=NUM_CLASSES, use_display_name=True)

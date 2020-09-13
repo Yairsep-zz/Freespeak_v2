@@ -11,7 +11,7 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # resources_path: resources/face_emotions_analysis_resources/
 class FaceEmotionDetector:
@@ -36,13 +36,15 @@ class FaceEmotionDetector:
             Dense(7, activation='softmax')
         ])
 
-        current_path = os.getcwd()
-        self.model.load_weights(os.path.join(current_path, resources_path + '\\model.h5'))
+        current_path = os.path.abspath(__file__ + "/../../../../../")
+        model_path = os.path.join(current_path, resources_path, 'model.h5')
+
+        self.model.load_weights(model_path)
 
         # dictionary which assigns each label an emotion (alphabetical order)
         self.emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
-        self.facecasc = cv2.CascadeClassifier(os.path.join(current_path, resources_path + '\\haarcascade_frontalface_default.xml'))
+        self.facecasc = cv2.CascadeClassifier(os.path.join(current_path, resources_path, 'haarcascade_frontalface_default.xml'))
 
     def detect(self, frame):
             gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
