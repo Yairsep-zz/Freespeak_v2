@@ -5,7 +5,8 @@ import logging
 class CsvWriter:
   def __init__(self, filename, labels):
     super().__init__()
-    self.filename = os.path.join('outputFiles', filename)
+    outputPath = os.path.abspath(__file__ + "/../../../../../") + '/resources/raw_data/'
+    self.filename = os.path.join(outputPath, filename)
     self.labels = labels
     self.open = False
 

@@ -6,7 +6,7 @@ import tensorflow as tf
 import os
 from datetime import datetime
 import cv2
-from handDetector.utils import label_map_util
+from Backend.Analysis.Utils.handDetector_utils import label_map_util
 from collections import defaultdict
 import csv
 
@@ -17,7 +17,7 @@ sys.path.append("..")
 # score threshold for showing bounding boxes.
 _score_thresh = 0.27
 
-MODEL_NAME = os.path.join('handDetector', 'resources', 'hand_inference_graph')
+MODEL_NAME = os.path.join('resources', 'hand_positions_analysis_resources', 'hand_inference_graph')
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
 PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 # List of the strings that is used to add correct label for each box.

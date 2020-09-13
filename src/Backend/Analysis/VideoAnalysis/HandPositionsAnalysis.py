@@ -1,6 +1,6 @@
 from multiprocessing import Queue
 from PyQt5.QtCore import QThread
-import resources.hand_positions_analysis_resources.utils.detector_utils as detector_utils
+from Backend.Analysis.Utils.handDetector_utils import detector_utils
 import tensorflow as tf
 import cv2
 from datetime import datetime
@@ -16,6 +16,17 @@ class HandDetector(QThread):
     self.height = height
     self.width = width
     self.num_hands = 2
+
+    self.detection_graph, self.sess = detector_utils.load_inference_graph()
+
+  def __enter__(self):
+    # self.start()
+    return self
+
+  def __exit__(self, type, value, traceback):
+    # self.stop()
+    self.sess.close()
+    print("Handdetector closed")
 
   def detect(self, frame):
     if (frame is not None):
@@ -41,17 +52,7 @@ class HandDetector(QThread):
                 x = int(left + ((right - left)/2))
                 y = int(bottom + ((top - bottom) / 2))
                 results.append([str(datetime.now().timestamp()), str(x), str(y)])
-        return results
-
-  def __enter__(self):
-    self.detection_graph, self.sess = detector_utils.load_inference_graph()
-    # self.start()
-    return self
-
-  def __exit__(self, type, value, traceback):
-    # self.stop()
-    self.sess.close()
-    print("Handdetector closed")
+        return results  
 
   # def run(self):
   #     print(">> loading frozen model for worker")

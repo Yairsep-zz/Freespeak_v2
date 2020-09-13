@@ -7,6 +7,9 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 
 from Backend.Recording.VideoRecorder.videoReader import VideoReader
+from Backend.Analysis.VideoAnalysis.HandPositionsAnalysis import HandDetector
+from Backend.Analysis.VideoAnalysis.FaceEmotionsAnalysis import FaceEmotionDetector
+from Backend.Analysis.Utils.CsvWriter import CsvWriter
 
 class VideoManager(QThread):
   changePixmap = pyqtSignal(QImage)
@@ -29,6 +32,13 @@ class VideoManager(QThread):
     self.width, self.height = self.video_capture.size()
     print("VideoManager initialized/started.......")
 
+    logging.info('opening csv writers')
+    self.handPositionsWriter = CsvWriter('handPositions.csv', ["Time", "x", "y"])
+    self.emotionsWriter = CsvWriter('emotions.csv', ["Time", "Emotions"])
+
+    logging.info('opening faceEmotionDetector')
+    self.faceEmotionDetector = FaceEmotionDetector('resources/face_emotions_analysis_resources/')
+
 
   def connectEvents(self, videoFrameEvent):
     self.changePixmap.connect(videoFrameEvent)
@@ -36,14 +46,14 @@ class VideoManager(QThread):
   def startRecording(self):
     logging.info('VideoManager starting recording')
     self.recording = True
-    # self.handPositionsWriter.start()
-    # self.emotionsWriter.start()
+    self.handPositionsWriter.start()
+    self.emotionsWriter.start()
     self.video_capture.startRecording()
 
   def stopRecording(self):
     self.recording = False
-    # self.handPositionsWriter.stop()
-    # self.emotionsWriter.stop()
+    self.handPositionsWriter.stop()
+    self.emotionsWriter.stop()
     self.video_capture.stopRecording()
     logging.info('VideoManager recording stopped')
 
@@ -55,7 +65,7 @@ class VideoManager(QThread):
     # num_frames = 0
     # fps = 0
     # index = 0
-
+    handDetector = HandDetector(self.height, self.width)
     self.running = True
     while self.running:
         frame = self.video_capture.read()
@@ -68,12 +78,18 @@ class VideoManager(QThread):
         # fps = num_frames / elapsed_time #TODO: division by zero
         # print("frame ",  index, num_frames, elapsed_time, fps)
 
+        handPositions = handDetector.detect(frame)
+        emotions = self.faceEmotionDetector.detect(frame)
+
+        if self.recording:
+           self.handPositionsWriter.writerows(handPositions)
+           self.emotionsWriter.writerows(emotions)
+
         if (frame is not None):
             # if (self.showFps):
             #     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)),
             #
-            #TODO: bug fix
-            time.sleep(0.05)
+            time.sleep(0.5)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(

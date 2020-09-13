@@ -19,7 +19,7 @@ import logging
 
 import tensorflow as tf
 from google.protobuf import text_format
-from handDetector.utils import string_int_label_map_pb2
+from Backend.Analysis.Utils.handDetector_utils import string_int_label_map_pb2
 
 
 def _validate_label_map(label_map):
