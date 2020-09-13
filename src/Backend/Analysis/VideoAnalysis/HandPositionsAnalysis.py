@@ -28,6 +28,9 @@ class HandDetector(QThread):
     self.sess.close()
     print("Handdetector closed")
 
+  def show_fps(self, fps, frame):
+     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)), frame)
+
   def detect(self, frame):
     if (frame is not None):
         # Actual detection. Variable boxes contains the bounding box cordinates for hands detected,

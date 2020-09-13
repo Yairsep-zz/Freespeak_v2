@@ -90,10 +90,10 @@ class VideoManager(QThread):
         # print("frame ",  index, num_frames, elapsed_time, fps)
 
         if (frame is not None):
-            # if (self.showFps):
-            #     detector_utils.draw_fps_on_image("FPS : " + str(int(fps)), frame)
+            if (self.showFps):
+               self.handDetector.show_fps(fps, frame)
 
-            time.sleep(0.5)
+            # time.sleep(0.5)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(
