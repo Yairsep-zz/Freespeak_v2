@@ -5,6 +5,8 @@
 *.wav
 *.txt
 !requirements.txt
-*.png
 venv
 .vscode
+presentations/*
+resources/output_data/*
+resources/raw_data/*
