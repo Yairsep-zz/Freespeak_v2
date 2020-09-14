@@ -1,5 +1,6 @@
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+import logging
 
 # get the directory of this script
 path = os.path.dirname(os.path.abspath(__file__))
@@ -8,17 +9,20 @@ WindowUI, WindowBase = uic.loadUiType(
     os.path.join(path, 'templates', 'resultPage.ui'))
 
 class ResultScreen(WindowBase, WindowUI):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, presentations_path=""):
+
+        print(type(presentations_path))
         WindowBase.__init__(self, parent)
         self.setupUi(self)
         self.scaledImages = []
         self.version = None
+        self.presentations_path = presentations_path
         self.tabWidget.currentChanged.connect(lambda: self.load())
 
     def load(self):
         if self.version is not None:
-            self.path = os.path.join('presentations', self.version)
             #self.titleLabel.setText(self.version)
+            self.path = os.path.join(self.presentations_path, self.version)
 
             # hand positions tab
             self.setPixmapScaled(self.handImage, 'handposPlot.png')
@@ -28,7 +32,7 @@ class ResultScreen(WindowBase, WindowUI):
 
            # face expression tab
             self.setPixmapScaled(self.faceExpressionPieChart, 'facialEmotionsChart.png')
-            self.setPixmapScaled(self.faceExpressionScatter, 'emotionsPlot.png')
+            self.setPixmapScaled(self.faceExpressionScatter, 'emotionsTimeline.png')
             with open (os.path.join(self.path, 'facialExpressionsAdvices.txt'), 'r') as file:
                 text = file.read()
                 self.faceExpressionTips.setText(text)
@@ -42,13 +46,13 @@ class ResultScreen(WindowBase, WindowUI):
 
             # speech emotion tab
             self.setPixmapScaled(self.speechEmotionImage, 'speechEmotionsChart.png')
-            with open (os.path.join(self.path, 'speechEmotionsTippsAndAdvices.txt'), 'r') as file:
+            with open (os.path.join(self.path, 'speechEmotionsTipsAndAdvices.txt'), 'r') as file:
                 text = file.read()
                 self.speechEmotionText.setText(text)
 
             # WPM tab
             self.setPixmapScaled(self.wpmImage, 'wpmGraph.png')
-            with open (os.path.join(self.path, 'wordsPerMinute.txt'), 'r') as file:
+            with open (os.path.join(self.path, 'wpmFeedback.txt'), 'r') as file:
                 text = file.read()
                 self.wpmText.setText(text)
 

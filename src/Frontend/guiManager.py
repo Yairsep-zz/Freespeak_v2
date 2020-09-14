@@ -15,10 +15,13 @@ class GuiManager(WindowBase, WindowUI):
     def __init__(self, parent=None):
         WindowBase.__init__(self, parent)
         self.setupUi(self)
+
+        self.presentations_path = os.path.join(os.path.abspath(__file__ + "/../../../"), 'presentations')
+
         logging.info("Initializing guiRecordingPage......")
         self.recordWindow = RecordWindow(self)
         logging.info("Initializing ResultScreen......")
-        self.resultScreen = ResultScreen(self)
+        self.resultScreen = ResultScreen(self, presentations_path=self.presentations_path)
 
         self.stackedWidget.addWidget(self.recordWindow)
         self.stackedWidget.addWidget(self.resultScreen)
@@ -28,6 +31,7 @@ class GuiManager(WindowBase, WindowUI):
 
         # connect buttons
         self.switchPageButton.clicked.connect(self.switchPage)
+
 
     def switchPage(self):
         if(self.stackedWidget.currentIndex() == 0):
@@ -44,11 +48,13 @@ class GuiManager(WindowBase, WindowUI):
     def checkForResultsActivation(self):
         # check if results exist
         self.switchPageButton.setEnabled(False)
-        workingDirPath = os.getcwd()
-        versionFilePath = os.path.join(workingDirPath, 'outputFiles', 'version.txt')
+        # workingDirPath = os.getcwd()
+        # workingDirPath = os.path.abspath(__file__ + "/../../../")
+        versionFilePath = os.path.join(os.path.abspath(__file__ + "/../../../"), 'resources', 'output_data', 'version.txt')
+        # versionFilePath = os.path.join(workingDirPath, 'outputFiles', 'version.txt')
         if os.path.isfile(versionFilePath):
             with open(versionFilePath, 'r') as versionFile:
                 self.version = versionFile.read()
                 if len(self.version) > 0 and os.path.isdir(
-                    os.path.join(workingDirPath, 'presentations', self.version)):
+                    os.path.join(self.presentations_path, self.version)):
                     self.switchPageButton.setEnabled(True)

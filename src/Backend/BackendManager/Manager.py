@@ -30,6 +30,7 @@ from Backend.Evaluation.Feedback.FaceEmotionsFeedback import generate_face_emoti
 
 from Backend.Evaluation.Visualisation.HandPositionsVisualisation import visualize_hand_positions
 from Backend.Evaluation.Feedback.HandPosotionsFeedback import generate_hand_pos_feedback
+
 class Manager():
   def __init__(self):
     self.timer = QtCore.QTimer()
