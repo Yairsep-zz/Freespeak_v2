@@ -4,7 +4,7 @@ import cv2
 import time
 import os
 
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QThread, QMutex, QWaitCondition
 from PyQt5.QtGui import QImage, QPixmap
 
 from Backend.Recording.VideoRecorder.VideoReader import VideoReader
@@ -14,7 +14,7 @@ from Backend.Analysis.Utils.CsvWriter import CsvWriter
 
 class VideoManager(QThread):
   changePixmap = pyqtSignal(QImage)
-  def __init__(self):
+  def __init__(self, mutex, condition):
     super().__init__()
     self.queue_size = 5
     self.height = 200
@@ -22,10 +22,11 @@ class VideoManager(QThread):
     self.showFps = True
     self.video_source = cv2.CAP_ANY
 
+    self.mutex = mutex
+    self.condition = condition
+
     self.running = False
     self.recording = False
-
-    #self.changePixmap = pyqtSignal(QImage)
 
     logging.info('Initializing VideoReader.....')
     self.video_capture = VideoReader(
@@ -98,7 +99,9 @@ class VideoManager(QThread):
             bytesPerLine = ch * w
             convertToQtFormat = QImage(
                 frame.data, w, h, bytesPerLine, QImage.Format_RGB888)
+
             self.changePixmap.emit(convertToQtFormat)
+            self.condition.wait(self.mutex)
         else:
             logging.warning('None Frame was read!')
             break

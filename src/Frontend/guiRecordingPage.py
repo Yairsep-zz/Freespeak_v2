@@ -3,6 +3,7 @@ import shutil
 from datetime import datetime
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5.QtCore import QThread, QMutex, QWaitCondition
 
 #from video.videoAdapter import VideoAdapter
 #from audio.audioAdapter import AudioAdapter
@@ -28,11 +29,15 @@ WindowUI, WindowBase = uic.loadUiType(
 class RecordWindow(WindowBase, WindowUI):
     def __init__(self, parent=None):
         WindowBase.__init__(self, parent)
+        self.mutex = QMutex()
+        self.condition = QWaitCondition()
+        self.mutex.lock()
+
         self.setupUi(self)
 
         self.recording = False
         logging.info("Initializing Manager......")
-        self.manager = Manager()
+        self.manager = Manager(self.mutex, self.condition)
 
         logging.info("Connecting events.......")
         self.startStopButton.clicked.connect(self.onStartStopButtonPress)
@@ -49,16 +54,18 @@ class RecordWindow(WindowBase, WindowUI):
         self.recording = not self.recording
 
     def setFrame(self, frame):
+        self.mutex.lock()
+        try:
         #TODO: synchronize
         # time.sleep(0.2)
-        w = self.videoScreen.width() - 1
-        h = self.videoScreen.height() - 1
-        pixmap = QtGui.QPixmap.fromImage(frame)
-        self.videoScreen.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio,QtCore.Qt.FastTransformation))
-        self.videoScreen.setMinimumSize(1,1)
-
-    # def putText(self,stuff):
-    #     self.manager.putText(stuff)
+            w = self.videoScreen.width() - 1
+            h = self.videoScreen.height() - 1
+            pixmap = QtGui.QPixmap.fromImage(frame)
+            self.videoScreen.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio,QtCore.Qt.FastTransformation))
+            self.videoScreen.setMinimumSize(1,1)
+        finally:
+            self.mutex.unlock()
+            self.condition.wakeAll()
 
     def timerEvent(self):
         elapsedTime = self.manager.getElapsedTime()

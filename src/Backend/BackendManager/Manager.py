@@ -7,6 +7,7 @@ import shutil
 import numpy as np
 
 from PyQt5 import QtCore
+from PyQt5.QtCore import QThread, QMutex, QWaitCondition
 
 from Backend.BackendManager.VideoManager import VideoManager
 from Backend.BackendManager.AudioManager import AudioManager
@@ -32,15 +33,13 @@ from Backend.Evaluation.Visualisation.HandPositionsVisualisation import visualiz
 from Backend.Evaluation.Feedback.HandPosotionsFeedback import generate_hand_pos_feedback
 
 class Manager():
-  def __init__(self):
+  def __init__(self, mutex, condition):
     self.timer = QtCore.QTimer()
     self.time = QtCore.QTime(0, 0)
     self.numberOfWords = 0
 
-    #self.video = VideoAdapter()
-    #self.audio = AudioAdapter(self)
     logging.info("Initializing VideoManager(QThread)......")
-    self.video = VideoManager()
+    self.video = VideoManager(mutex, condition)
     self.audioManager = AudioManager()
 
     self.audioInitialized = False
@@ -67,8 +66,9 @@ class Manager():
 
   def stopRecording(self):
       #LOL
-      if not(self.videoInitialized) or not(self.audioInitialized):
-        time.sleep(1.3)
+      # if not(self.videoInitialized) or not(self.audioInitialized):
+      #   time.sleep(1)
+
       logging.info('stop recording pressed')
 
       self.timer.stop()
@@ -76,10 +76,6 @@ class Manager():
       self.audioManager.stopRecording()
       self.analyze_output()
       self.moveOutput()
-
-  # def putText(self,stuff):
-  #     logging.info('detected: ' + stuff)
-  #     self.numberOfWords += len(stuff.split())
 
   def moveOutput(self):
     output_data_path = os.path.join(os.path.abspath(__file__ + "/../../../../"), 'resources', 'output_data')
@@ -89,8 +85,6 @@ class Manager():
     folderName = 'presentation' + str(datetime.now().strftime("%d%m%Y-%H%M%S"))
     newFolder = os.path.join(presentations_path, folderName)
 
-    #handVisualizer.visualiser(outputDir)
-    #emotionvisualiser.visualiser(outputDir)
     os.mkdir(newFolder)
 
     files = os.listdir(output_data_path)
@@ -102,15 +96,6 @@ class Manager():
     versionFile = open(os.path.join(output_data_path, 'version.txt'), "w")
     versionFile.write(folderName)
     versionFile.close()
-
-  # def analyzeAudio(self, wordsPerMinute):
-  #     logging.info('starting analyzeAudio')
-  #     audioFile = os.path.join('outputFiles', 'output.wav')
-  #     textFile = os.path.join('outputFiles', 'output.txt')
-  #     analyze_text_emotions(textFile)
-  #     analyze_audio_emotions(audioFile)
-  #     plotWPMGraph(wordsPerMinute)
-  #     keep_duplicates()
 
   def analyze_output(self):
     raw_data_path = os.path.join(os.path.abspath(__file__ + "/../../../../"), 'resources', 'raw_data')
