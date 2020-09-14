@@ -1,4 +1,6 @@
-def voiceEmotionsFeedback(color_number, color_names, output_path):
+import os
+
+def generate_voice_emotions_feedback(color_number, color_names, output_path):
     indexMaxVal = findAllIndices(color_number)
     occuringEmotions = "We detected these emotions in your voice:\n"
     emotions = ""
@@ -61,7 +63,7 @@ def tipsForImprovement():
     return occuringEmotions
 
 def saveToText(comment, output_path):
-    text_file = open(output_path + "\\speechEmotionsTippsAndAdvices.txt", "w")
+    text_file = open(os.path.join(output_path, 'speechEmotionsTipsAndAdvices.txt'), "w")
     text_file.write(comment)
     text_file.close()
 

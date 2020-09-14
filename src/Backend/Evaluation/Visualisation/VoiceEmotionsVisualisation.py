@@ -1,8 +1,9 @@
 import numpy as np
 import logging
 import matplotlib.pyplot as plt
+import os
 
-def voiceEmotionsVisualisation(raw_data, output_path):
+def visualize_voice_emotions(raw_data, output_path):
     logging.info('start plotting speechEmotions')
     labels = np.unique(raw_data)
     emotionToColorMap = {
@@ -32,8 +33,10 @@ def voiceEmotionsVisualisation(raw_data, output_path):
     ax1.axis('equal')
     plt.tight_layout()
     plt.legend(labels=labels)
-    plt.savefig(output_path + '\\speechEmotionsChart.png')
+    plt.savefig(os.path.join(output_path, 'speechEmotionsChart.png'))
 
     plt.cla()
     plt.clf()
     logging.info('plotting speechEmotions done')
+
+    return sizes

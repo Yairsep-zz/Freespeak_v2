@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import logging
 import math
-
-def textSentimentVisualisation(magnitude, score, output_path):
+import os
+def visualize_text_sentiment(magnitude, score, output_path):
     logging.info('start plotting textEmotions')
     x = ['magnitude', 'score']
     values = [magnitude, score]
@@ -36,5 +36,5 @@ def textSentimentVisualisation(magnitude, score, output_path):
         magnitudeScale += 0.1
 
     plt.subplots_adjust(left=0.15, bottom=0.1, right=0.9, top=0.9)
-    plt.savefig(output_path + '\\textEmotions.png')
+    plt.savefig(os.path.join(output_path, 'textEmotions.png'))
     logging.info('plotting textEmotions done')

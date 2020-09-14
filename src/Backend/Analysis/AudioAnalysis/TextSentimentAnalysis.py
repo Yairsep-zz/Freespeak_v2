@@ -3,7 +3,7 @@ from google.cloud.language import enums
 from google.cloud.language import types
 import argparse
 
-def text_sentiment_analysis(raw_data_path):
+def analyze_text_sentiment(raw_data_path):
     """Run a sentiment analysis request on text within a passed filename."""
     client = language.LanguageServiceClient()
 
@@ -29,6 +29,6 @@ def text_sentiment_analysis(raw_data_path):
 #         help='The filename of the movie review you\'d like to analyze.')
 #     args = parser.parse_args()
 
-#     (magnitude, score) = text_sentiment_analysis(args.movie_review_filename)
+#     (magnitude, score) = analyze_text_sentiment(args.movie_review_filename)
 #     print(magnitude)
 #     print(score)

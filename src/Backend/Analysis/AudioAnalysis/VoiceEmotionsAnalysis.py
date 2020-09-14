@@ -5,29 +5,31 @@ import matplotlib.pyplot as plt
 from pydub.utils import make_chunks
 from pydub import AudioSegment
 
-def voice_emotions_analysis(audio_path, model_path, raw_data_path):
+def analyze_voice_emotions(raw_audio_path, resources_path):
     print(AudioSegment.ffmpeg)
-
     logging.info('starting speechEmotionsAnalysis')
+
+    model_path = os.path.join(resources_path, 'emotions_model.pkl')
+
     model = joblib.load(model_path)
     logging.info('emotions_model loaded')
 
-    myaudio = AudioSegment.from_wav(audio_path, "wav")
+    myaudio = AudioSegment.from_wav(raw_audio_path, "wav")
     logging.info('wav audio loaded')
 
     chunk_length_ms = 3000
     chunks = make_chunks(myaudio, chunk_length_ms) #Make chunks of three secs
     logging.info('chunks created')
     # creating a new folder in resources if not already exists
-    current_path = os.getcwd()
-    new_path = os.path.join(current_path, raw_data_path + "\\wav_chunks")
+
+    new_path = os.path.join(resources_path, 'wav_chunks')
     if(not os.path.isdir(new_path)):
         os.mkdir(new_path)
 
     y = []
     #Export all of the individual chunks as wav files
     for i, chunk in enumerate(chunks):
-        file = raw_data_path + "\\wav_chunks\\chunk{0}.wav".format(i)
+        file = new_path + "\\chunk{0}.wav".format(i)
         logging.info("exporting" + file)
         chunk.export(file, format="wav")
         feature=extractFeature(file, mfcc=True, chroma=True, mel=True)
@@ -61,9 +63,10 @@ def extractFeature(file_name, mfcc, chroma, mel):
 
 # if __name__ == '__main__':
 #     parser = argparse.ArgumentParser(description='Create a ArcHydro schema')
-#     parser.add_argument('audio_path')
+#     # parser.add_argument('audio_path')
 #     parser.add_argument('model_path')
-#     parser.add_argument('raw_data_path')
+#     parser.add_argument('raw_audio_path')
 #     args = parser.parse_args()
 
-#     voice_emotions_analysis(args.audio_path, args.model_path, args.raw_data_path)
+#     # analyze_voice_emotions(args.audio_path, args.model_path, args.raw_audio_path)
+#     analyze_voice_emotions(args.model_path, args.raw_audio_path)

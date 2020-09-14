@@ -1,6 +1,7 @@
 import statistics
+import os
 
-def handPositionsFeedback(x, y, output_path):
+def generate_hand_pos_feedback(x, y, output_path):
     if len(x) < 2 or len(y) < 2:
         return ""
     # standard deviation of x and y histogram
@@ -35,6 +36,6 @@ def handPositionsFeedback(x, y, output_path):
     string += "-Also, don't forget to relax! You don't have to ove your hands constantly!\n"
     string += "-Your gestures are a second language that communicates powerful messages to your audience. Practice them before getting on stage!\n"
 
-    text_file = open(output_path + "\\handGesturesAdvicer.txt", "w")
+    text_file = open(os.path.join(output_path, 'handGesturesAdvicer.txt'), "w")
     text_file.write(string)
     text_file.close()

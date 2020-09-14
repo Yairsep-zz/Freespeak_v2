@@ -7,24 +7,24 @@ import os, statistics, math, sys, csv
 
 #TODO: create the feedback from here or somewhere else?
 #importing files for feedback creation
-from Freespeak_v2.Backend.Evaluation.Feedback.HandPositionsFeedback import standardDeviation
-from Freespeak_v2.Backend.Evaluation.Feedback.HandPositionsFeedback import gestureAdvicer
+# from Backend.Evaluation.Feedback.HandPositionsFeedback import standardDeviation
+# from Backend.Evaluation.Feedback.HandPositionsFeedback import gestureAdvicer
 
 
-def handPositionsVisualisation(raw_data_path, output_path):
-    data = csv.DictReader(open(raw_data_path + '\\handPositions.csv'), delimiter=',')
+def visualize_hand_positions(raw_data_path, output_path):
+    data = csv.DictReader(open(os.path.join(raw_data_path, 'handPositions.csv')), delimiter=',')
     xCoords = []
     yCoords = []
     for d in data:
         xCoords.append(int(d['x']))
         yCoords.append(int(d['y']))
 
-    string = standardDeviation(xCoords, yCoords)
-    if len(xCoords) == 0 or len(yCoords) == 0:
-        print("NO HANDS WERE TRACKED. COULD NOT CREATE HAND VISUALIZER GRAPH.")
-        return False
+    # string = standardDeviation(xCoords, yCoords)
+    # if len(xCoords) == 0 or len(yCoords) == 0:
+    #     print("NO HANDS WERE TRACKED. COULD NOT CREATE HAND VISUALIZER GRAPH.")
+    #     return False
 
-    gestureAdvicer(string)
+    # gestureAdvicer(string)
     xMax = 802
     yMax = 539
 
@@ -50,10 +50,10 @@ def handPositionsVisualisation(raw_data_path, output_path):
     plt.title('Hand positions')
     # plt.subplots_adjust(left=0.01, bottom=0, right=0.99, top=1)
 
-    plt.savefig(output_path + '\\handposPlot.png')
+    plt.savefig(os.path.join(output_path, 'handposPlot.png'))
     plt.cla()
     plt.clf()
-    return True
+    return xCoords, yCoords
 
-if __name__ == "__main__":
-    visualiser('outputFiles')
+# if __name__ == "__main__":
+#     visualize_hand_positions('outputFiles')

@@ -1,9 +1,8 @@
 import logging
+import os
 
-def textSentimentFeedback(annotations, output_path):
+def generate_text_sentiment_feedback(score, magnitude, output_path):
     logging.info('start textEmotionExplanation')
-    score = annotations.document_sentiment.score
-    magnitude = annotations.document_sentiment.magnitude
 
     # if magnitude == 0 and score == 0:
     #     print("NO TEXT WAS DETECTED, COULD NOT CREATE GRAPH FOR TEXT EMOTIONS ANALYSIS")
@@ -26,7 +25,7 @@ def textSentimentFeedback(annotations, output_path):
     elif score == 0 and magnitude >= 5:
         string += "Your speech shows equally distributed positive and negative emotions."
 
-    with open(output_path + "\\textEmotionsExplanation.txt", "w") as text_file:
+    with open(os.path.join(output_path, 'textEmotionsExplanation.txt'), "w") as text_file:
         text_file.write(result + string)
         logging.info('textEmotionsExplanation done')
 

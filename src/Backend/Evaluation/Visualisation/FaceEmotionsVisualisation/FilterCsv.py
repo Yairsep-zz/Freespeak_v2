@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import collections
+import os
 
 def find_duplicates_map(data):
     dups = collections.defaultdict(list)
@@ -20,7 +21,7 @@ def filter_data(data, time):
 
 def filterCsv(raw_data_path, output_path):
     filtered = []
-    with open(raw_data_path + '\\emotions.csv', 'r') as f:
+    with open(os.path.join(raw_data_path, 'emotions.csv'), 'r') as f:
         temp = [line.strip() for line in f]
         data = []
         time = []
@@ -36,7 +37,7 @@ def filterCsv(raw_data_path, output_path):
         filtered = filter_data(data, time)
         f.flush()
 
-    with open(output_path + '\\emotions.csv', 'w', newline='') as fd:
+    with open(os.path.join(output_path, 'emotions.csv'), 'w', newline='') as fd:
         fd.write("Time,Emotions\n")
         for s in filtered:
             fd.write(s+"\n")

@@ -1,4 +1,6 @@
-def faceEmotionsFeedback(output_path):
+import os
+
+def generate_face_emotions_feedback(output_path):
     string = (
         "The movements of your eyes, mouth, and facial muscles can build a connection with your audience.\n"
         "Alternatively, they can undermine your every word. Eye focus is the most important element in this process.\n"
@@ -11,6 +13,6 @@ def faceEmotionsFeedback(output_path):
         "It's only on rare occasions that you may need to be somber and serious throughout.\n"
         "Use your facial expressions as a tool to underline your content!"
     )
-    text_file = open(output_path + "\\facialExpressionsAdvices.txt", "w")
+    text_file = open(os.path.join(output_path, 'facialExpressionsAdvices.txt'), "w")
     text_file.write(string)
     text_file.close()

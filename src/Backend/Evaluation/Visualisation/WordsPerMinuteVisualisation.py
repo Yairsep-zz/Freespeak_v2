@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
-
-def wordsPerMinuteVisualisation(wpm, output_path):
+def visualize_wpm(wpm, output_path):
     height = [wpm]
     bars = ['Your WPM=' + str(wpm)]
     y_pos = np.arange(1)
@@ -29,5 +29,5 @@ def wordsPerMinuteVisualisation(wpm, output_path):
     ax.text(0, 100, '100')
     ax.text(0, 130, '130')
     ax.annotate(s='', xy=(0, 100), xytext=(0, 130), arrowprops=dict(arrowstyle='<->'))
-    fig.savefig(output_path + '\\wpmGraph.png')
+    fig.savefig(os.path.join(output_path, 'wpmGraph.png'))
 #     plt.show()

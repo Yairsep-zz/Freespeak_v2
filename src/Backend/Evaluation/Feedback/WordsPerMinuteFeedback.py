@@ -1,4 +1,6 @@
-def wordsPerMinuteFeedback(wordsPerMinute):
+import os
+
+def generate_wpm_feedback(wordsPerMinute, output_path):
     string = "Your WPM score (= words per minute) is {:.3f}.\n".format(wordsPerMinute)
     string += (
         "With the WPM (= words per minute) we can determine, if you talk too fast or too slow.\n"
@@ -19,4 +21,6 @@ def wordsPerMinuteFeedback(wordsPerMinute):
     else:
         string += "Your speaking speed is balanced!"
 
-    return string
+    text_file = open(os.path.join(output_path, 'wpmFeedback.txt'), "w")
+    text_file.write(string)
+    text_file.close()

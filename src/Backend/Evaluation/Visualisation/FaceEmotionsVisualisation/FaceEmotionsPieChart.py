@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import collections
+import os
 
 def faceEmotionsPieChart(raw_data_path, output_path):
-    df = pd.read_csv(raw_data_path + "\\emotions.csv")
+    df = pd.read_csv(os.path.join(raw_data_path, 'emotions.csv'))
     emotions = df['Emotions']
 
     labels = np.unique(emotions)
@@ -38,6 +39,6 @@ def faceEmotionsPieChart(raw_data_path, output_path):
     ax1.axis('equal')
     plt.tight_layout()
     plt.legend(labels=labels)
-    plt.savefig(output_path + '\\facialEmotionsChart.png')
+    plt.savefig(os.path.join(output_path, 'facialEmotionsChart.png'))
     plt.cla()
     plt.clf()

@@ -7,7 +7,7 @@ import sys
 import os
 
 def faceEmotionsTimeLine(raw_data_path, output_path):
-    data = csv.DictReader(open(raw_data_path+'\\emotions.csv'), delimiter=',')
+    data = csv.DictReader(open(os.path.join(raw_data_path, 'emotions.csv')), delimiter=',')
     realtime = []
     emotions = []
 
@@ -65,6 +65,6 @@ def faceEmotionsTimeLine(raw_data_path, output_path):
     plt2.xlabel('Time in seconds')
     plt2.title('Shown emotions over time')
     plt2.subplots_adjust(left=0.15, bottom=0.1, right=0.9, top=0.9)
-    plt2.savefig(output_path + '\emotionsPlot.png')
+    plt2.savefig(os.path.join(output_path, 'emotionsTimeline.png'))
     plt2.clf()
     plt2.cla()
