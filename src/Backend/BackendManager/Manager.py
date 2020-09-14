@@ -95,7 +95,7 @@ class Manager():
     files = os.listdir(output_data_path)
 
     for f in files:
-        if f != ".gitignore" and f != "version.txt":
+        if f != ".gitignore" and f != "version.txt" and f != ".gitkeep":
             shutil.move(os.path.join(output_data_path, f), newFolder)
 
     versionFile = open(os.path.join(output_data_path, 'version.txt'), "w")
