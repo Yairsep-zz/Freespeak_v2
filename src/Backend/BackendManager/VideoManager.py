@@ -94,7 +94,6 @@ class VideoManager(QThread):
             if (self.showFps):
                self.handDetector.show_fps(fps, frame)
 
-            # time.sleep(0.5)
             h, w, ch = frame.shape
             bytesPerLine = ch * w
             convertToQtFormat = QImage(

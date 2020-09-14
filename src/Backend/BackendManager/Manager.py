@@ -65,10 +65,6 @@ class Manager():
       self.time.start()
 
   def stopRecording(self):
-      #LOL
-      # if not(self.videoInitialized) or not(self.audioInitialized):
-      #   time.sleep(1)
-
       logging.info('stop recording pressed')
 
       self.timer.stop()
