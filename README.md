@@ -50,23 +50,23 @@ python main.py
 ```
 
 To start recording, push the **Start Recording** button:
-![startRecordingButton](/reosurces/images/startRecording.png)
+![](/resources/images/startRecording.png)
 
 At the left bottom corner you will see a timer which shows for how long the audio and video are being recorded
-![Timer](/reosurces/images/timer.png)
+![](/resources/images/timer.png)
 
 To stop recording, push the **Stop Recording** button:
-![stopRecordingButton](/reosurces/images/stopRecording.png)
+![](/resources/images/stopRecording.png)
 
 After pushing the **Stop Recording** button, our program starts to analyze your emotions, speaking speed and body language.
 You can look up the analyze results by pushing the **Analyze Results** button:
-![AnalyzeResultsButton](/reosurces/images/analyzeResults.png)
+![](/resources/images/analyzeResults.png)
 
 At the top you can see the different categories we analyzed during your presentation,
-![Categories](/reosurces/images/categories.png)
+![](/resources/images/categories.png)
 
 and on the left side you can switch between the plotted graphs and tips given to you based on your behaviour pattern.
-![Example](/reosurces/images/example1.png)
+![](/resources/images/example1.png)
 
 
 
