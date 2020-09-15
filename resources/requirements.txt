@@ -13,3 +13,6 @@ matplotlib==3.2.0
 pydub==0.23.1
 PyQt5==5.15.1
 numba==0.48
+google-cloud
+google-cloud-speech
+google-cloud-language

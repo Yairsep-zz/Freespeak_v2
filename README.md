@@ -28,12 +28,9 @@ pip --version
 ```
 and make sure that your Python version is 3.5 – 3.7 and your pip version is at least 19.0 or later.
 
-Now setup the Google Cloud SDK with this [manual](https://cloud.google.com/sdk/docs/downloads-interactive) and install those Python Google libraries using pip:
+Now setup the Google Cloud SDK with this [manual](https://cloud.google.com/sdk/docs/downloads-interactive) and upgrade this Python Google library using pip:
 ```
 pip install --upgrade google-api-python-client
-pip install google-cloud
-pip install google-cloud-speech
-pip install google-cloud-language
 ```
 
 Finally setup the remaining Python-packages by running the command
